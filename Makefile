@@ -1,34 +1,102 @@
-CC 			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror -I.
-RM			= 	rm -f
-NAME 		= 	libft.a
-SRCS 		= 	ft_bzero.c ft_memset.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
-				ft_isdigit.c ft_isprint.c ft_memcpy.c ft_strlen.c ft_memmove.c \
-				ft_strlcpy.c ft_strlcat.c ft_tolower.c ft_toupper.c ft_strchr.c \
-				ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_atoi.c \
-				ft_strdup.c ft_strnstr.c ft_calloc.c ft_substr.c ft_strjoin.c \
-				ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
-				ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c ft_putendl_fd.c
-OBJS 		= 	$(SRCS:.c=.o)
-BONUS 		=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
-				ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
-				ft_lstmap.c
-BONUS_OBJS 	= 	$(BONUS:.c=.o)
+NAME	=	libft.a
+CC		=	gcc
+CFLAGS	=	-Wall -Wextra -Werror
+SRC		=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c\
+			ft_isprint.c ft_toupper.c ft_tolower.c ft_strchr.c\
+			ft_strrchr.c ft_strncmp.c ft_strnstr.c ft_strlen.c\
+			ft_strlcpy.c ft_strlcat.c ft_bzero.c ft_memset.c\
+			ft_memchr.c ft_memcpy.c ft_memcmp.c ft_memmove.c\
+			ft_atoi.c ft_calloc.c ft_strdup.c\
+			ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c\
+			ft_itoa.c ft_strmapi.c ft_striteri.c\
+			ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
 
-all:			$(NAME)
+B_SRC	=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c\
+			ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c\
+			ft_lstclear.c ft_lstiter.c ft_lstmap.c\
 
-$(NAME):		$(OBJS)
-				ar -rcs $(NAME) $(OBJS)
+M_SRC	=	clst_addback.c\
+			clst_addfront.c\
+			clst_clear.c\
+			clst_count.c\
+			clst_del_content.c\
+			clst_delone.c\
+			clst_insert.c\
+			clst_link.c\
+			clst_new.c\
+			clst_to_array.c\
+			dict_addback.c\
+			dict_clear.c\
+			dict_count.c\
+			dict_delone.c\
+			dict_get_value.c\
+			dict_new.c\
+			dict_search_item.c\
+			dict_size.c\
+			dict_store_item.c\
+			dict_substr_key.c\
+			dict_substr_value.c\
+			dict_to_array.c\
+			dict_update_value.c\
+			dict_xstore_item.c\
+			free_vector.c\
+			ft_isspace.c\
+			ft_lstsize_sizet.c\
+			ft_strajoin.c\
+			ft_strclen.c\
+			ft_strcmp.c\
+			ft_strjoin3.c\
+			ft_strndup.c\
+			ft_trijoin.c\
+			ft_ulongtoa_base.c\
+			ft_v_strchr.c\
+			ft_xcalloc.c\
+			ft_xitoa.c\
+			ft_xlstnew_bonus.c\
+			ft_xsplit.c\
+			ft_xstrajoin.c\
+			ft_xstrdup.c\
+			ft_xstrjoin.c\
+			ft_xstrjoin3.c\
+			ft_xstrmapi.c\
+			ft_xstrndup.c\
+			ft_xsubstr.c\
+			ft_xtrijoin.c\
+			ft_xulongtoa_base.c\
+			multi_free.c\
+			to_vector.c\
+			xclose.c\
+			xdict_new.c\
+			xdict_to_array.c\
+			xmalloc.c\
+			xperror.c\
+
+G_SRCS	= gnl/get_next_line_before.c gnl/get_next_line_utils.c
+
+SRCDIR	= subject/
+SRCS	= $(addprefix $(SRCDIR), $(SRC))
+OBJS	= $(SRCS:.c=.o)
+B_SRCS	= $(addprefix $(SRCDIR), $(B_SRC))
+B_OBJS	= $(B_SRCS:.c=.o)
+M_SRCDIR=  myfunc/
+M_SRCS	= $(addprefix $(M_SRCDIR), $(M_SRC))
+M_OBJS	= $(M_SRCS:.c=.o)
+G_OBJS	= $(G_SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(B_OBJS) $(M_OBJS) $(G_OBJS)
+	ar -rc $(NAME) $(OBJS) $(B_OBJS) $(M_OBJS) $(G_OBJS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-				$(RM) $(OBJS) $(BONUS_OBJS)
+	rm -f $(OBJS) $(B_OBJS) $(M_OBJS) $(G_OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+	rm -f $(NAME)
 
-re:				fclean $(NAME)
+re : fclean all
 
-bonus:			$(OBJS) $(BONUS_OBJS)
-				ar -rcs $(NAME) $(OBJS) $(BONUS_OBJS)
-
-.PHONY:			all clean fclean re bonus
+.PHONY: all clean bonus fclean re
